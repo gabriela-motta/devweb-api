@@ -1,0 +1,22 @@
+{
+  "name": "kitso-books",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabriela-motta/devweb-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabriela-motta/devweb-api/issues"
+  },
+  "homepage": "https://github.com/gabriela-motta/devweb-api#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
