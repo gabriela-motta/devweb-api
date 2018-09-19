@@ -7,10 +7,21 @@ var passport = require('passport');
 var bcrypt = require('bcryptjs');
 const PORT = process.env.PORT || 3000;
 var config = require('./config/db.js')
+var swagger = require('swagger-express');
 
 const app = express();
 
 mongoose.connect(config.local_url, { useNewUrlParser: true });
+
+app.use(swagger.init(app, {
+    apiVersion: '1.0',
+    swaggerVersion: '1.0',
+    basePath: 'http://localhost:3000',
+    swaggerURL: '/api/swagger',
+    swaggerJSON: '/api-docs.json',
+    swaggerUI: './doc/swagger/',
+    apis: ['./routes/book.js']
+  }));
 
 app.use(morgan('dev'));
 
@@ -45,12 +56,12 @@ app.delete('/', function(req, res) {
 });
 
 var bookRoutes = require('./routes/book');
-app.use('/book', bookRoutes);
+app.use('api/book', bookRoutes);
 
 var authRoutes = require('./routes/auth');
-app.use('/auth', authRoutes);
+app.use('api/auth', authRoutes);
 
 var userRoutes = require('./routes/user');
-app.use('/user', userRoutes);
+app.use('api/user', userRoutes);
 
 module.exports = app;
