@@ -88,6 +88,24 @@ router.post('/', bookController.create);
  */
 router.put('/:book_id', bookController.update);
 
+/**
+ * @swagger
+ * path: /api/book/:book_id
+ * operations:
+ *   -  httpMethod: DELETE
+ *      summary: Delete book
+ *      notes: Deletes book
+ *      responseClass: Book
+ *      nickname: delete_book
+ *      consumes:
+ *        - application/json
+ *      parameters:
+ *        - name: book_id
+ *          description: Book id
+ *          paramType: query
+ *          required: true
+ *          dataType: string
+ */
 router.delete('/:book_id', bookController.delete);
 
 module.exports = router;

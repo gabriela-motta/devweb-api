@@ -1,3 +1,4 @@
 module.exports = {
-    local_url: "mongodb://localhost/kitsobooks-dev"
+    url: "",
+    local_url: "mongodb://localhost:27017/kitsobooks-dev"
 }

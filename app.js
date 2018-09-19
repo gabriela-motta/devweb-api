@@ -1,17 +1,39 @@
-const express = require('express');
-const morgan = require('morgan');
-const path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var bcrypt = require('bcryptjs');
-const PORT = process.env.PORT || 3000;
 var config = require('./config/db.js')
 var swagger = require('swagger-express');
 
+const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
 const app = express();
 
-mongoose.connect(config.local_url, { useNewUrlParser: true });
+const PORT = process.env.PORT || 3000;
+const ENV = process.env.ENVIROMENT || 'development'
+
+var db_url;
+if (ENV == 'production') {
+  db_url = db.url;
+} else {
+  db_url = db.local_url;
+}
+mongoose.connect(db_url, { useNewUrlParser: true });
+mongoose.set('useCreateIndex', true);
+
+require('./config/passport')(passport);
+app.use(session({
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 60 * 60 // = 60 minutos de sessão
+  }),
+  secret: process.env.SESSION_SECRET || 'local-secret',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(swagger.init(app, {
     apiVersion: '1.0',
@@ -27,8 +49,6 @@ app.use(morgan('dev'));
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-app.listen(PORT, () => console.log('Example app listening on port 3000!'));
-
 // parse application/json
 app.use(bodyParser.json());
 
@@ -38,33 +58,18 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Basic routes
-app.get('/', function(req, res) {
-    res.send('Get request');
-});
-
-app.post('/', function(req, res) {
-    res.send('Post request');
-});
-
-app.put('/', function(req, res) {
-    res.send('Put request');
-});
-
-app.delete('/', function(req, res) {
-    res.send('Delete request');
-});
-
-var bookRoutes = require('./book/book.router.js');
+var bookRoutes = require('./book/book.router');
 app.use('api/book', bookRoutes);
 
-var authRoutes = require('./user/auth.router.js');
+var authRoutes = require('./user/auth.router');
 app.use('api/auth', authRoutes);
 
-var userRoutes = require('./user/user.router.js');
+var userRoutes = require('./user/user.router');
 app.use('api/user', userRoutes);
 
-var authorRoutes = require('./author/author.router.js');
+var authorRoutes = require('./author/author.router');
 app.use('api/author', userRoutes);
+
+app.listen(PORT, () => console.log('Example app listening on port 3000!'));
 
 module.exports = app;
