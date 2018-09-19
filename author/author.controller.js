@@ -1,8 +1,8 @@
-var Book = require('../models/Book');
+var Author = require('./author.model');
 var RequestStatus = require('../constants/requestStatus');
 
 exports.index = (req, res) => {
-    Book.find({})
+    Author.find({})
         .then((result) => {
             res.status(RequestStatus.OK).json(result);
         })
@@ -12,7 +12,7 @@ exports.index = (req, res) => {
 };
 
 exports.show = (req, res) => {
-    Book.findById(req.params.book_id)
+    Author.findById(req.params.author_id)
         .then((user) => {
             res.status(RequestStatus.OK).json(user);
         })
@@ -22,19 +22,19 @@ exports.show = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    var book = new Book(req.body);
+    var author = new Author(req.body);
 
     console.log(req.body);
 
-    book.save()
+    author.save()
         .catch((err) => {
             res.status(RequestStatus.BAD_REQUEST).send(err);
         })
-        .then((createdBook) => {
+        .then((createdAuthor) => {
             var res_json = {
-                "message": "Book created",
+                "message": "Author created",
                 "data": {
-                    "book": createdBook
+                    "author": createdAuthor
                 }
             };
             res.status(RequestStatus.OK).json(res_json);
@@ -42,9 +42,9 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    Book.updateOne({ _id: req.params.book_id }, { $set: req.body })
+    Author.updateOne({ _id: req.params.author_id }, { $set: req.body })
         .then(() => {
-            res.status(RequestStatus.OK).send('Book updated!');
+            res.status(RequestStatus.OK).send('Author updated!');
         })
         .catch((error) => {
             res.status(RequestStatus.BAD_REQUEST).json(error);
@@ -52,9 +52,9 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    Book.deleteOne({ _id: req.params.book_id })
+    Author.deleteOne({ _id: req.params.author_id })
         .then(() => {
-            res.status(RequestStatus.OK).send('Book deleted.');
+            res.status(RequestStatus.OK).send('Author deleted.');
         })
         .catch((error) => {
             res.status(RequestStatus.BAD_REQUEST).send(error);

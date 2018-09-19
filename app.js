@@ -20,7 +20,7 @@ app.use(swagger.init(app, {
     swaggerURL: '/api/swagger',
     swaggerJSON: '/api-docs.json',
     swaggerUI: './doc/swagger/',
-    apis: ['./routes/book.js']
+    apis: ['./book/book.router.js']
   }));
 
 app.use(morgan('dev'));
@@ -55,13 +55,16 @@ app.delete('/', function(req, res) {
     res.send('Delete request');
 });
 
-var bookRoutes = require('./routes/book');
+var bookRoutes = require('./book/book.router.js');
 app.use('api/book', bookRoutes);
 
-var authRoutes = require('./routes/auth');
+var authRoutes = require('./user/auth.router.js');
 app.use('api/auth', authRoutes);
 
-var userRoutes = require('./routes/user');
+var userRoutes = require('./user/user.router.js');
 app.use('api/user', userRoutes);
+
+var authorRoutes = require('./author/author.router.js');
+app.use('api/author', userRoutes);
 
 module.exports = app;

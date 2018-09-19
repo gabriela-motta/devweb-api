@@ -1,8 +1,13 @@
 
+/**
+ * @swagger
+ * resourcePath: api/book
+ * description: All about API
+ */
 var express = require('express');
 var router = express.Router();
 
-var bookController = require('../controllers/book');
+var bookController = require('./book.controller');
 
 /**
  * @swagger

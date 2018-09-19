@@ -1,4 +1,4 @@
-var User = require('../models/User');
+var User = require('./user.model');
 var RequestStatus = require('../constants/requestStatus');
 
 exports.index = (req, res) => {

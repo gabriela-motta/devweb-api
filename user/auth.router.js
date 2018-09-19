@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 // Imports especificos, nao precisa desses comentarios, soh de pular uma linha entre os dois
-var authController = require('../controllers/auth');
+var authController = require('./auth.controller');
 
 router.get('/', authController.status);
 

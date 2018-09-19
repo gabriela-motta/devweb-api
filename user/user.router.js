@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // Imports especificos, nao precisa desses comentarios, soh de pular uma linha entre os dois
-var userController = require('../controllers/user');
+var userController = require('./user.controller');
 
 router.get('/', userController.index);
 
