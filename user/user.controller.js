@@ -23,20 +23,23 @@ exports.show = (req, res) => {
 
 exports.create = (req, res) => {
   var user = new User(req.body);
+  user.profile_name = req.body.username;
 
   user.generateHash(req.body.password)
   	.then((hash) => {
   		user.password = hash;
-  		user.save((err) => {
+  		user.save((err, createdUser) => {
   			if (err && err.name === 'MongoError' && err.code === 11000) {
-					res.status(RequestStatus.FORBIDDEN).send(err);
+					res.status(RequestStatus.FORBIDDEN).json(RequestMsgs.DUPLICATED_ENTITY);
+        } else if (err) {
+          res.status(RequestStatus.BAD_REQUEST).json(err);
         } else {
-          res.status(RequestStatus.OK).send('User created.');
+          res.status(RequestStatus.OK).json({ result: createdUser, msg: 'User created.' });
         }
   		});
   	})
   	.catch((error) => {
-  		res.status(RequestStatus.BAD_REQUEST).send(err);
+  		res.status(RequestStatus.BAD_REQUEST).json(err);
   	});
 };
 
