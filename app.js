@@ -1,13 +1,13 @@
-const express = require('express');
-const morgan = require('morgan');
-const path = require('path');
+var express = require('express');
+var morgan = require('morgan');
+var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var methodOverride = require('method-override');
 var passport = require('passport');
 var session = require('express-session');
-const swagger = require('swagger-express');
-const app = express();
+var swagger = require('swagger-express');
+var app = express();
 var MongoStore = require('connect-mongo')(session);
 
 // config files
@@ -81,7 +81,7 @@ var userRoutes = require('./user/user.router');
 app.use('/api/user', userRoutes);
 
 var authorRoutes = require('./author/author.router');
-app.use('/api/author', userRoutes);
+app.use('/api/author', authorRoutes);
 
 app.listen(PORT, () => console.log('Example app listening on port 3000!'));
 

@@ -1,13 +1,14 @@
 var User = require('./user.model');
 var RequestStatus = require('../constants/requestStatus');
+var RequestMsgs = require('../constants/requestMsgs');
 
 exports.index = (req, res) => {
   User.find({})
+    .then((result) => {
+      res.status(RequestStatus.OK).json(result);
+    })
 	  .catch((err) => {
 	    res.status(RequestStatus.BAD_REQUEST).send(err);
-	  })
-	  .then((result) => {
-	    res.status(RequestStatus.OK).json(result);
 	  });
 };
 
@@ -38,7 +39,7 @@ exports.create = (req, res) => {
         }
   		});
   	})
-  	.catch((error) => {
+  	.catch((err) => {
   		res.status(RequestStatus.BAD_REQUEST).json(err);
   	});
 };
