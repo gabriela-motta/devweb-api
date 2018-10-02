@@ -1,24 +1,22 @@
 const app = require('../app');
 const request = require('supertest');
-const User = require('../user/user.model');
+const Author = require('../author/author.model');
 const mongoose = require('mongoose');
-const userId = new mongoose.Types.ObjectId;
+const authorId = new mongoose.Types.ObjectId;
 
 var prepareData = async () => {
   runTests();
 }
 
 var runTests = () => {
-  describe('Create User', () => {
+  describe('Create Author', () => {
     let data = {
-      "_id": userId.toString(),
-      "username": "dummyUser",
-      "email": "dummyUser@test.com",
-      "password": "dummy"
+      "_id": authorId.toString(),
+      "name": "dummyAuthor"
     }
     it('respond with 200 created', (done) => {
       request(app)
-      .post('/api/user')
+      .post('/api/author')
       .send(data)
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -30,40 +28,35 @@ var runTests = () => {
     });
   });
 
-  describe('Index User', () => {
-    it('respond with json containing a list of all users', (done) => {
+  describe('Index Author', () => {
+    it('respond with json containing a list of all authors', (done) => {
       request(app)
-      .get('/api/user')
+      .get('/api/author')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, done);
     });
   });
 
-  describe('Show User', () => {
-    it('respond with json containing a user', (done) => {
+  describe('Show Author', () => {
+    it('respond with json containing a author', (done) => {
       request(app)
-      .get('/api/user/' + userId.toString())
+      .get('/api/author/' + authorId.toString())
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect((res) => {
-        if (!('profile_name' in res.body)) throw new Error("missing profile_name key");
-        if (!('username' in res.body)) throw new Error("missing username key");
-        if (!('email' in res.body)) throw new Error("missing email key");
-        if (('password' in res.body)) throw new Error("password field should not be present");
+        if (!('name' in res.body)) throw new Error("missing name key");
+        if (!('_books' in res.body)) throw new Error("missing books key");
       })
       .expect(200, done);
     });
   });
 
-  describe('Create a invalid User', () => {
-    let data = {
-      "username": "dummy",
-      "password": "dummy"
-    }
-    it('respond with 400 no email', (done) => {
+  describe('Create a invalid Author', () => {
+    let data = {}
+    it('respond with 400 no name', (done) => {
       request(app)
-      .post('/api/user')
+      .post('/api/author')
       .send(data)
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -75,10 +68,10 @@ var runTests = () => {
     });
   });
 
-  describe('Delete User', () => {
-    it('Respond with User Deleted', (done) => {
+  describe('Delete Author', () => {
+    it('Respond with Author Deleted', (done) => {
       request(app)
-      .delete('/api/user/' + userId.toString())
+      .delete('/api/author/' + authorId.toString())
       .set('Accept', 'application/json')
       .expect('Content-Type', /text\/html/)
       .expect(200)

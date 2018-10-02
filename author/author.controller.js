@@ -27,9 +27,6 @@ exports.create = (req, res) => {
     console.log(req.body);
 
     author.save()
-        .catch((err) => {
-            res.status(RequestStatus.BAD_REQUEST).send(err);
-        })
         .then((createdAuthor) => {
             var res_json = {
                 "message": "Author created",
@@ -38,6 +35,9 @@ exports.create = (req, res) => {
                 }
             };
             res.status(RequestStatus.OK).json(res_json);
+        })
+        .catch((err) => {
+            res.status(RequestStatus.BAD_REQUEST).send(err);
         });
 };
 
