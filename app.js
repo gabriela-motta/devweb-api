@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 var methodOverride = require('method-override');
 var passport = require('passport');
 var session = require('express-session');
-var swagger = require('swagger-express');
 var app = express();
 var MongoStore = require('connect-mongo')(session);
 
@@ -25,17 +24,6 @@ if (ENV == 'production') {
 mongoose.connect(db_url, { useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
 
-// API documentation UI
-app.use(swagger.init(app, {
-    apiVersion: '1.0',
-    swaggerVersion: '1.0',
-    basePath: 'http://localhost:3000',
-    swaggerURL: '/api/swagger',
-    swaggerJSON: '/api-docs.json',
-    swaggerUI: './doc/swagger/',
-    apis: ['./book/book.router.js']
-}));
-
 require('./config/passport')(passport);
 app.use(session({
   store: new MongoStore({
@@ -53,6 +41,7 @@ app.use(passport.session());
 app.use(morgan('dev'));
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/api', express.static(__dirname + '/public/apidoc'));
 
 // parse application/json
 app.use(bodyParser.json());

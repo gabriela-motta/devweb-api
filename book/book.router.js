@@ -1,110 +1,91 @@
-
-/**
- * @swagger
- * resourcePath: api/book
- * description: All about API
- */
 var express = require('express');
 var router = express.Router();
 
 var bookController = require('./book.controller');
 
 /**
- * @swagger
- * path: /api/book
- * operations:
- *   -  httpMethod: GET
- *      summary: Get all books
- *      notes: Returns all books
- *      responseClass: Book
- *      nickname: books
- *      consumes:
- *        - application/json
+ * @api {get} /api/book Get all Books
+ * @apiName GetBooks
+ * @apiGroup Book
+ * @apiVersion 1.0.0
+ *
+ * @apiSuccess {Object[]} books All books registred.
+ * @apiSuccess {String} book.title  Title of the book.
+ * @apiSuccess {String} book.sinopsis  Sinopsis of the book.
+ * @apiSuccess {String} book.author  Author of the book.
  */
 router.get('/', bookController.index);
 
 /**
- * @swagger
- * path: /api/book/:book_id
- * operations:
- *   -  httpMethod: GET
- *      summary: Get book from id
- *      notes: Returns one book
- *      responseClass: Book
- *      nickname: book
- *      consumes:
- *        - application/json
- *      parameters:
- *        - name: book_id
- *          description: Book id
- *          paramType: query
- *          required: true
- *          dataType: string
+ * @api {get} /api/book/:id Get Book
+ * @apiName GetBook
+ * @apiGroup Book
+ * @apiVersion 1.0.0
+ *
+ * @apiParam id Books unique ID.
+ *
+ * @apiSuccess {String} book.title  Title of the book.
+ * @apiSuccess {String} book.sinopsis  Sinopsis of the book.
+ * @apiSuccess {String} book.author  Author of the book.
  */
 router.get('/:book_id', bookController.show);
 
 /**
- * @swagger
- * path: /api/book/
- * operations:
- *   -  httpMethod: POST
- *      summary: Create book
- *      notes: Creates a new book
- *      responseClass: Book
- *      nickname: create_book
- *      consumes:
- *        - application/json
- *      parameters:
- *        - name: title
- *          description: Book title
- *          paramType: query
- *          required: true
- *          dataType: string
- *        - name: author
- *          description: Book author
- *          paramType: query
- *          required: true
- *          dataType: Author
+ * @api {post} /api/book Create a Book
+ * @apiName PostBook
+ * @apiGroup Book
+ * @apiVersion 1.0.0
+ *
+ * @apiParam title  Title of the book.
+ * @apiParam author  Author of the book.
+ * @apiParam [sinopsis]  Optional sinopsis to the book.
+ * @apiParam [quotes]  Optional quotes to the book.
+ * @apiParam [release_date]  Optional release_date to the book.
+ * @apiParam [original_language]  Optional original_language to the book.
+ *
+ * @apiSuccess {Object} result The operation result.
+ * @apiSuccess {String} result.title  Title of the book.
+ * @apiSuccess {String} result.sinopsis  Sinopsis of the book.
+ * @apiSuccess {String} result.author  Author of the book.
+ * @apiSuccess {Object} result.quotes  Quotes of the book.
+ * @apiSuccess {Date} result.release_date  Release date of the book.
+ * @apiSuccess {String} result.original_language  Original language of the book.
+ * @apiSuccess {String} msg Response message.
  */
 router.post('/', bookController.create);
 
 /**
- * @swagger
- * path: /api/book/:book_id
- * operations:
- *   -  httpMethod: PUT
- *      summary: Update book
- *      notes: Updates book informations
- *      responseClass: Book
- *      nickname: update_book
- *      consumes:
- *        - application/json
- *      parameters:
- *        - name: book_id
- *          description: Book id
- *          paramType: query
- *          required: true
- *          dataType: string
+ * @api {put} /api/book/:id Update a Book
+ * @apiName PutBook
+ * @apiGroup Book
+ * @apiVersion 1.0.0
+ *
+ * @apiParam [title]  Optional updated title field to the book.
+ * @apiParam [sinopsis]  Optional updated sinopsis to the book.
+ * @apiParam [author]  Optional updated author to the book.
+ * @apiParam [release_date]  Optional updated release_date to the book.
+ * @apiParam [original_language]  Optional updated original_language to the book.
+ *
+ * @apiSuccess {Object} result The operation result.
+ * @apiSuccess {String} result.title  Title of the book.
+ * @apiSuccess {String} result.sinopsis  Sinopsis of the book.
+ * @apiSuccess {String} result.author  Author of the book.
+ * @apiSuccess {Object} result.quotes  Quotes of the book.
+ * @apiSuccess {Date} result.release_date  Release date of the book.
+ * @apiSuccess {String} result.original_language  Original language of the book.
+ * @apiSuccess {String} msg Response message.
  */
 router.put('/:book_id', bookController.update);
 
 /**
- * @swagger
- * path: /api/book/:book_id
- * operations:
- *   -  httpMethod: DELETE
- *      summary: Delete book
- *      notes: Deletes book
- *      responseClass: Book
- *      nickname: delete_book
- *      consumes:
- *        - application/json
- *      parameters:
- *        - name: book_id
- *          description: Book id
- *          paramType: query
- *          required: true
- *          dataType: string
+ * @api {delete} /api/book/:id Delete Book
+ * @apiName DeleteBook
+ * @apiGroup Book
+ * @apiVersion 1.0.0
+ *
+ * @apiParam id Books unique ID.
+ *
+ * @apiSuccess msg Response message.
  */
 router.delete('/:book_id', bookController.delete);
 
