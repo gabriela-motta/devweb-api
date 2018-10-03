@@ -8,6 +8,7 @@ var passport = require('passport');
 var session = require('express-session');
 var app = express();
 var MongoStore = require('connect-mongo')(session);
+var cors = require('cors');
 
 // config files
 var db = require('./config/db');
@@ -19,6 +20,13 @@ if (ENV == 'production') {
   db_url = db.url;
 } else {
   db_url = db.local_url;
+}
+
+var corsOptions = require('./config/cors');
+if (ENV == 'production') {
+  app.use(cors(corsOptions));
+} else {
+  app.use(cors());
 }
 
 mongoose.connect(db_url, { useNewUrlParser: true });
@@ -59,6 +67,10 @@ app.all('/*', function(req, res, next) {
 
 // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(methodOverride('X-HTTP-Method-Override'));
+
+app.get('/', (req, res) => {
+	res.send('Kitso Books API.');
+});
 
 var bookRoutes = require('./book/book.router');
 app.use('/api/book', bookRoutes);
