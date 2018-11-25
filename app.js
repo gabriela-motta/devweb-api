@@ -13,7 +13,7 @@ var cors = require('cors');
 // config files
 var db = require('./config/db');
 var PORT = process.env.PORT || 3000;
-var ENV = process.env.ENVIROMENT || 'development'
+var ENV = process.env.ENVIROMENT || 'production'
 
 var db_url;
 if (ENV == 'production') {
