@@ -14,7 +14,15 @@ var AuthorSchema = new Schema({
       type: String,
       required: false
     },
-    _books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
+    _books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
+    image: {
+      type: String,
+      required: false
+    },
+    description: {
+      type: String,
+      required: false
+    }
 });
 
 var Author = mongoose.model('Author', AuthorSchema);

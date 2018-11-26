@@ -27,6 +27,25 @@ var BookSchema = new Schema({
       type: [String],
       default: [],
       required: false
+    },
+    reviews: {
+      type: [
+        {
+          comment: {
+            type: String
+          },
+          rating: {
+            type: Number,
+            enum: [1,2,3,4,5]
+          }
+        }
+      ],
+      default: [],
+      required: false
+    },
+    image: {
+      type: String,
+      required: false
     }
 });
 
