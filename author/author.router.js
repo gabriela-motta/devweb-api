@@ -1,16 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var RequestStatus = require('../constants/requestStatus');
 
 var authorController = require('./author.controller');
-
-function checkAuthentication(req,res,next){
-    if(req.isAuthenticated()){
-        next();
-    } else{
-        res.status(RequestStatus.UNAUTHORIZED).send('User not logged.');
-    }
-}
 
 /**
  * @api {get} /api/author Get all Authors
@@ -24,7 +15,7 @@ function checkAuthentication(req,res,next){
  * @apiSuccess {String} author.country  Country of the author.
  * @apiSuccess {Object[]} author._books Books of the author.
  */
-router.get('/', checkAuthentication, authorController.index);
+router.get('/', authorController.index);
 
 /**
  * @api {get} /api/author/:id Get Author
@@ -39,7 +30,7 @@ router.get('/', checkAuthentication, authorController.index);
  * @apiSuccess {String} author.country  Country of the author.
  * @apiSuccess {Object[]} author._books Books of the author.
  */
-router.get('/:author_id', checkAuthentication, authorController.show);
+router.get('/:author_id', authorController.show);
 
 /**
  * @api {post} /api/author Create an Author
@@ -57,7 +48,7 @@ router.get('/:author_id', checkAuthentication, authorController.show);
  * @apiSuccess {String} result.country  Country of the author.
  * @apiSuccess {String} msg Response message.
  */
-router.post('/', checkAuthentication, authorController.create);
+router.post('/', authorController.create);
 
 /**
  * @api {put} /api/author/:id Update Author
@@ -75,7 +66,7 @@ router.post('/', checkAuthentication, authorController.create);
  * @apiSuccess {String} result.country  Country of the author.
  * @apiSuccess {String} msg Response message.
  */
-router.put('/:author_id', checkAuthentication, authorController.update);
+router.put('/:author_id', authorController.update);
 
 /**
  * @api {delete} /api/author/:id Delete Author
@@ -87,6 +78,6 @@ router.put('/:author_id', checkAuthentication, authorController.update);
  *
  * @apiSuccess msg Response message.
  */
-router.delete('/:author_id', checkAuthentication, authorController.delete);
+router.delete('/:author_id', authorController.delete);
 
 module.exports = router;
