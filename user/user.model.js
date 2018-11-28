@@ -29,7 +29,8 @@ var UserSchema = new Schema({
 	password: {
 		type: String,
 		required: true
-	}
+	},
+	_books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
 });
 
 UserSchema.methods.generateHash = function(password) {

@@ -1,7 +1,16 @@
 var express = require('express');
 var router = express.Router();
+var RequestStatus = require('../constants/requestStatus');
 
 var bookController = require('./book.controller');
+
+function checkAuthentication(req,res,next){
+    if(req.isAuthenticated()){
+        next();
+    } else{
+        res.status(RequestStatus.UNAUTHORIZED).send('User not logged.');
+    }
+}
 
 /**
  * @api {get} /api/book Get all Books
@@ -14,7 +23,7 @@ var bookController = require('./book.controller');
  * @apiSuccess {String} book.sinopsis  Sinopsis of the book.
  * @apiSuccess {String} book.author  Author of the book.
  */
-router.get('/', bookController.index);
+router.get('/', checkAuthentication, bookController.index);
 
 /**
  * @api {get} /api/book/:id Get Book
@@ -28,7 +37,7 @@ router.get('/', bookController.index);
  * @apiSuccess {String} book.sinopsis  Sinopsis of the book.
  * @apiSuccess {String} book.author  Author of the book.
  */
-router.get('/:book_id', bookController.show);
+router.get('/:book_id', checkAuthentication, bookController.show);
 
 /**
  * @api {post} /api/book Create a Book
@@ -52,7 +61,7 @@ router.get('/:book_id', bookController.show);
  * @apiSuccess {String} result.original_language  Original language of the book.
  * @apiSuccess {String} msg Response message.
  */
-router.post('/', bookController.create);
+router.post('/', checkAuthentication, bookController.create);
 
 /**
  * @api {put} /api/book/:id Update a Book
@@ -75,7 +84,7 @@ router.post('/', bookController.create);
  * @apiSuccess {String} result.original_language  Original language of the book.
  * @apiSuccess {String} msg Response message.
  */
-router.put('/:book_id', bookController.update);
+router.put('/:book_id', checkAuthentication, bookController.update);
 
 /**
  * @api {delete} /api/book/:id Delete Book
@@ -87,6 +96,6 @@ router.put('/:book_id', bookController.update);
  *
  * @apiSuccess msg Response message.
  */
-router.delete('/:book_id', bookController.delete);
+router.delete('/:book_id', checkAuthentication, bookController.delete);
 
 module.exports = router;
