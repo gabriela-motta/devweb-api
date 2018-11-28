@@ -1,16 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var RequestStatus = require('../constants/requestStatus');
 
 var bookController = require('./book.controller');
-
-function checkAuthentication(req,res,next){
-    if(req.isAuthenticated()){
-        next();
-    } else{
-        res.status(RequestStatus.UNAUTHORIZED).send('User not logged.');
-    }
-}
 
 /**
  * @api {get} /api/book Get all Books
@@ -23,7 +14,7 @@ function checkAuthentication(req,res,next){
  * @apiSuccess {String} book.sinopsis  Sinopsis of the book.
  * @apiSuccess {String} book.author  Author of the book.
  */
-router.get('/', checkAuthentication, bookController.index);
+router.get('/', bookController.index);
 
 /**
  * @api {get} /api/book/:id Get Book
@@ -37,7 +28,7 @@ router.get('/', checkAuthentication, bookController.index);
  * @apiSuccess {String} book.sinopsis  Sinopsis of the book.
  * @apiSuccess {String} book.author  Author of the book.
  */
-router.get('/:book_id', checkAuthentication, bookController.show);
+router.get('/:book_id', bookController.show);
 
 /**
  * @api {post} /api/book Create a Book
@@ -61,7 +52,7 @@ router.get('/:book_id', checkAuthentication, bookController.show);
  * @apiSuccess {String} result.original_language  Original language of the book.
  * @apiSuccess {String} msg Response message.
  */
-router.post('/', checkAuthentication, bookController.create);
+router.post('/', bookController.create);
 
 /**
  * @api {put} /api/book/:id Update a Book
@@ -84,7 +75,7 @@ router.post('/', checkAuthentication, bookController.create);
  * @apiSuccess {String} result.original_language  Original language of the book.
  * @apiSuccess {String} msg Response message.
  */
-router.put('/:book_id', checkAuthentication, bookController.update);
+router.put('/:book_id', bookController.update);
 
 /**
  * @api {delete} /api/book/:id Delete Book
@@ -96,6 +87,6 @@ router.put('/:book_id', checkAuthentication, bookController.update);
  *
  * @apiSuccess msg Response message.
  */
-router.delete('/:book_id', checkAuthentication, bookController.delete);
+router.delete('/:book_id', bookController.delete);
 
 module.exports = router;
