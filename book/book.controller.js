@@ -22,7 +22,7 @@ exports.show = (req, res) => {
 };
 
 exports.booksByAuthor = (req, res) => {
-  let author_id = req.query.author_id;
+  let author_id = req.params.author_id;
 
   Book.find({ author: author_id })
       .then((result) => {
