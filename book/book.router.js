@@ -43,7 +43,7 @@ router.get('/:book_id', bookController.show);
  * @apiSuccess {String} book.sinopsis  Sinopsis of the book.
  * @apiSuccess {String} book.author  Author of the book.
  */
-router.get('/author/:author_id', followsController.booksByAuthor);
+router.get('/author/:author_id', bookController.booksByAuthor);
 
 /**
  * @api {post} /api/book Create a Book
