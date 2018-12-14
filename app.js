@@ -25,24 +25,11 @@ if (ENV == 'production') {
 var allowedOrigins = ['http://localhost:3000',
                       'https://kitso-books.herokuapp.com'];
 
-if (ENV == 'production') {
-  app.use(cors({
-  origin: function(origin, callback){
-    // allow requests with no origin 
-    // (like mobile apps or curl requests)
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      var msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods:['GET','POST'],
   credentials: true
 }));
-} else {
-  app.use(cors());
-}
 
 mongoose.connect(db_url, { useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
