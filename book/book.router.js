@@ -31,6 +31,21 @@ router.get('/', bookController.index);
 router.get('/:book_id', bookController.show);
 
 /**
+ * @api {get} /api/book/author/:author_id Get Books by Author
+ * @apiName BooksByAuthor
+ * @apiGroup Book
+ * @apiVersion 1.0.0
+ *
+ * @apiParam author_id Authors unique ID.
+ *
+ * @apiSuccess {Object[]} books All books by this author.
+ * @apiSuccess {String} book.title  Title of the book.
+ * @apiSuccess {String} book.sinopsis  Sinopsis of the book.
+ * @apiSuccess {String} book.author  Author of the book.
+ */
+router.get('/author/:author_id', followsController.booksByAuthor);
+
+/**
  * @api {post} /api/book Create a Book
  * @apiName PostBook
  * @apiGroup Book

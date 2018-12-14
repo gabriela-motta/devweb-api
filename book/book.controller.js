@@ -21,6 +21,18 @@ exports.show = (req, res) => {
         });
 };
 
+exports.booksByAuthor = (req, res) => {
+  let author_id = req.query.author_id;
+
+  Book.find({ author: author_id })
+      .then((result) => {
+          res.status(RequestStatus.OK).json(result);
+      })
+      .catch((err) => {
+          res.status(RequestStatus.BAD_REQUEST).send(err);
+      });
+};
+
 exports.create = (req, res) => {
     var book = new Book(req.body);
 
