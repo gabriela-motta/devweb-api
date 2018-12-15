@@ -42,9 +42,7 @@ exports.create = (req, res) => {
         .then((createdBook) => {
             var res_json = {
                 "message": "Book created",
-                "data": {
-                    "book": createdBook
-                }
+                "book": createdBook
             };
             res.status(RequestStatus.OK).json(res_json);
         })
