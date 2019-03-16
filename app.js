@@ -22,10 +22,10 @@ if (ENV == 'production') {
   db_url = db.local_url;
 }
 
-var allowedOrigins = ['https://kitsobooks.herokuapp.com'];
+var allowedOrigins = ['localhost:3000'];
 
 app.use(cors({
-  origin: 'https://kitsobooks.herokuapp.com',
+  origin: 'localhost:3000',
   methods:['GET','POST'],
   credentials: true
 }));
