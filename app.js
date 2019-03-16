@@ -22,10 +22,10 @@ if (ENV == 'production') {
   db_url = db.local_url;
 }
 
-var allowedOrigins = ['localhost:3000'];
+var allowedOrigins = ['http://localhost:3000'];
 
 app.use(cors({
-  origin: 'localhost:3000',
+  origin: 'http://localhost:3000',
   methods:['GET','POST'],
   credentials: true
 }));
@@ -70,7 +70,7 @@ app.all('/*', function(req, res, next) {
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 app.get('/', (req, res) => {
-	res.send('Kitso Books API.');
+	res.send('Kitso Books API. Check https://kitso-books.herokuapp.com/api/ for docs.');
 });
 
 var bookRoutes = require('./book/book.router');
